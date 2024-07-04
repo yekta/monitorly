@@ -4,6 +4,9 @@ export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 
 	theme: {
+		transitionTimingFunction: {
+			DEFAULT: 'cubic-bezier(0, 0.5, 0.3, 1)'
+		},
 		extend: {
 			colors: {
 				background: {

@@ -14,7 +14,7 @@
 
 <div
 	data-current-is-fail={currentIsFail ? true : undefined}
-	class="group flex w-full max-w-md flex-col"
+	class="group flex w-full max-w-lg flex-col"
 >
 	<div class="flex w-full items-center justify-start">
 		<div class="flex items-center pr-4">
@@ -39,15 +39,16 @@
 			})}%
 		</p>
 	</div>
-	<div class="mt-2.5 flex w-full overflow-hidden rounded-lg">
+	<div class="mt-2.5 flex w-full">
 		{#each data as item, index (item.id)}
 			<div
 				data-last={index === data.length - 1 ? true : undefined}
-				class="flex h-12 w-full pr-1.5px hover:brightness-[1.3] data-[last]:p-0"
+				data-first={index === 0 ? true : undefined}
+				class="group/bar relative flex h-12 w-full pr-1.5px hover:brightness-110 hover:saturate-150 data-[last]:p-0"
 			>
 				<div
 					data-fail={item.type === 'fail' ? true : undefined}
-					class="h-full w-full bg-success data-[fail]:bg-fail"
+					class="h-full w-full rounded-[1px] bg-success transition duration-100 group-hover/bar:-translate-y-1 data-[fail]:bg-fail group-data-[first]/bar:rounded-l-lg group-data-[last]/bar:rounded-r-lg"
 				></div>
 			</div>
 		{/each}
