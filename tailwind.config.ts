@@ -12,7 +12,8 @@ export default {
 				},
 				foreground: {
 					DEFAULT: 'rgb(var(--foreground))',
-					faded: 'rgb(var(--foreground-faded))'
+					faded: 'rgb(var(--foreground-faded))',
+					'faded-more': 'rgb(var(--foreground-faded-more))'
 				},
 				success: 'rgb(var(--success))',
 				fail: 'rgb(var(--fail))'
@@ -21,6 +22,7 @@ export default {
 				'screen-small': 'var(--viewport-small-height)'
 			},
 			spacing: {
+				'0.75px': '0.75px',
 				0.25: '0.0625rem',
 				'2px': '2px',
 				'1.5px': '1.5px',

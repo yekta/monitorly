@@ -6,6 +6,7 @@
 	--background-secondary: 235 235 235;
 	--foreground: 0 0 0;
 	--foreground-faded: 50 50 50;
+	--foreground-faded-more: 90 90 90;
 	--success: 60 170 110;
 	--fail: 200 60 90;
 	--viewport-small-height: 100vh;
@@ -17,6 +18,7 @@
 		--background-secondary: 30 30 40;
 		--foreground: 240 240 250;
 		--foreground-faded: 170 170 180;
+		--foreground-faded-more: 120 120 130;
 		--success: 100 235 150;
 		--fail: 215 100 130;
 	}
