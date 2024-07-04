@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+
+:root {
+	--background: 255 255 255;
+	--foreground: 0 0 0;
+	--success: 60 170 110;
+	--fail: 200 60 90;
+	--viewport-small-height: 100vh;
+}
+
+html {
+	background: rgb(var(--background));
+	color: rgb(var(--foreground));
+	font-family: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
+	font-weight: normal;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: 0 0 10;
+		--foreground: 240 240 250;
+		--success: 120 235 170;
+		--fail: 235 120 150;
+	}
+}
+
+@supports (height: 100svh) {
+	:root {
+		--viewport-small-height: 100svh;
+	}
+}
+
+@tailwind utilities;
