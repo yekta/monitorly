@@ -27,20 +27,23 @@
 				{title}
 			</h2>
 		</div>
-		<div class="h-1.5px w-full flex-1 rounded-l-full bg-background-secondary"></div>
+		<div
+			class="h-1.5px w-full flex-1 rounded-l-full bg-gradient-to-r from-background-secondary/0 via-background-secondary to-background-secondary"
+		></div>
 		<p
-			class="text-foreground-faded rounded-md bg-background-secondary px-1.5 py-0.75 text-center text-xs font-medium"
+			class="rounded-md bg-background-secondary px-1.5 py-0.75 text-center text-xs font-semibold text-foreground-faded"
 		>
 			{uptimePercent.toLocaleString(undefined, {
-				maximumFractionDigits: 2
+				maximumFractionDigits: 2,
+				minimumFractionDigits: 2
 			})}%
 		</p>
 	</div>
-	<div class="gap-1.5px flex w-full overflow-hidden rounded-md">
+	<div class="flex w-full gap-1.5px overflow-hidden rounded-md">
 		{#each data as item (item.id)}
 			<div
 				data-fail={item.type === 'fail' ? true : undefined}
-				class="flex h-10 w-full bg-success data-[fail]:bg-fail"
+				class="flex h-12 w-full bg-success data-[fail]:bg-fail"
 			></div>
 		{/each}
 	</div>

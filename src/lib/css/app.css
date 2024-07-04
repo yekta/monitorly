@@ -5,17 +5,10 @@
 	--background: 255 255 255;
 	--background-secondary: 235 235 235;
 	--foreground: 0 0 0;
-	--foreground-faded: 40 40 40;
+	--foreground-faded: 50 50 50;
 	--success: 60 170 110;
 	--fail: 200 60 90;
 	--viewport-small-height: 100vh;
-}
-
-html {
-	background: rgb(var(--background));
-	color: rgb(var(--foreground));
-	font-family: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
-	font-weight: normal;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,9 +16,9 @@ html {
 		--background: 0 0 10;
 		--background-secondary: 30 30 40;
 		--foreground: 240 240 250;
-		--foreground-faded: 190 190 200;
-		--success: 120 235 170;
-		--fail: 235 120 150;
+		--foreground-faded: 170 170 180;
+		--success: 100 235 150;
+		--fail: 215 100 130;
 	}
 }
 
@@ -33,6 +26,13 @@ html {
 	:root {
 		--viewport-small-height: 100svh;
 	}
+}
+
+html {
+	background: rgb(var(--background));
+	color: rgb(var(--foreground));
+	font-family: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
+	font-weight: normal;
 }
 
 @tailwind utilities;
