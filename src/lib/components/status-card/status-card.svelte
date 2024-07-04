@@ -28,10 +28,10 @@
 			</h2>
 		</div>
 		<div
-			class="h-1.5px w-full flex-1 rounded-l-full bg-gradient-to-r from-background-secondary/0 via-background-secondary to-background-secondary"
+			class="h-1.5px w-full flex-1 rounded-l-full bg-gradient-to-r from-background-secondary/0 to-background-secondary to-[33%]"
 		></div>
 		<p
-			class="rounded-md bg-background-secondary px-1.5 py-0.75 text-center text-xs font-semibold text-foreground-faded"
+			class="rounded-md bg-background-secondary px-1.5 py-0.75 text-center text-xs font-medium text-foreground-faded"
 		>
 			{uptimePercent.toLocaleString(undefined, {
 				maximumFractionDigits: 2,
@@ -39,11 +39,11 @@
 			})}%
 		</p>
 	</div>
-	<div class="mt-2.5 flex w-full overflow-hidden rounded-md">
+	<div class="mt-2.5 flex w-full overflow-hidden rounded-lg">
 		{#each data as item, index (item.id)}
 			<div
 				data-last={index === data.length - 1 ? true : undefined}
-				class="flex h-12 w-full pr-1.5px hover:brightness-[1.3] hover:-hue-rotate-15 data-[last]:p-0"
+				class="flex h-12 w-full pr-1.5px hover:brightness-[1.3] data-[last]:p-0"
 			>
 				<div
 					data-fail={item.type === 'fail' ? true : undefined}
@@ -53,9 +53,9 @@
 		{/each}
 	</div>
 	<div
-		class="text-foreground-faded-more mt-2.5 flex w-full items-center justify-between text-xs font-medium"
+		class="mt-2.5 flex w-full items-center justify-between gap-4 text-xs font-medium text-foreground-faded-more"
 	>
-		<p>30d ago</p>
-		<p>Today</p>
+		<p class="pr-4">30d ago</p>
+		<p class="pl-4">Today</p>
 	</div>
 </div>
