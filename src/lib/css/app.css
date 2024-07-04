@@ -3,7 +3,9 @@
 
 :root {
 	--background: 255 255 255;
+	--background-secondary: 235 235 235;
 	--foreground: 0 0 0;
+	--foreground-faded: 40 40 40;
 	--success: 60 170 110;
 	--fail: 200 60 90;
 	--viewport-small-height: 100vh;
@@ -19,7 +21,9 @@ html {
 @media (prefers-color-scheme: dark) {
 	:root {
 		--background: 0 0 10;
+		--background-secondary: 30 30 40;
 		--foreground: 240 240 250;
+		--foreground-faded: 190 190 200;
 		--success: 120 235 170;
 		--fail: 235 120 150;
 	}

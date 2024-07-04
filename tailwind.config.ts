@@ -10,7 +10,10 @@ export default {
 					DEFAULT: 'rgb(var(--background))',
 					secondary: 'rgb(var(--background-secondary))'
 				},
-				foreground: 'rgb(var(--foreground))',
+				foreground: {
+					DEFAULT: 'rgb(var(--foreground))',
+					faded: 'rgb(var(--foreground-faded))'
+				},
 				success: 'rgb(var(--success))',
 				fail: 'rgb(var(--fail))'
 			},
@@ -19,6 +22,8 @@ export default {
 			},
 			spacing: {
 				0.25: '0.0625rem',
+				'2px': '2px',
+				'1.5px': '1.5px',
 				0.75: '0.1875rem',
 				1.25: '0.3125rem',
 				1.75: '0.4375rem'

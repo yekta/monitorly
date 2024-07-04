@@ -17,7 +17,7 @@
 	class="group flex w-full max-w-md flex-col gap-3"
 >
 	<div class="flex w-full items-center justify-start">
-		<div class="flex items-center pr-6">
+		<div class="flex items-center pr-4">
 			{#if currentIsFail}
 				<XIcon class="-ml-0.5 mr-1 size-5 text-fail" />
 			{:else}
@@ -27,16 +27,16 @@
 				{title}
 			</h2>
 		</div>
-		<div class="mr-px h-px w-full flex-1 rounded-l-full bg-foreground/20"></div>
+		<div class="h-1.5px w-full flex-1 rounded-l-full bg-background-secondary"></div>
 		<p
-			class="rounded-md bg-foreground/10 px-1.5 py-0.5 text-center text-xs font-medium text-foreground ring-1 ring-foreground/20"
+			class="text-foreground-faded rounded-md bg-background-secondary px-1.5 py-0.75 text-center text-xs font-medium"
 		>
 			{uptimePercent.toLocaleString(undefined, {
 				maximumFractionDigits: 2
 			})}%
 		</p>
 	</div>
-	<div class="flex w-full gap-0.5 overflow-hidden rounded-md">
+	<div class="gap-1.5px flex w-full overflow-hidden rounded-md">
 		{#each data as item (item.id)}
 			<div
 				data-fail={item.type === 'fail' ? true : undefined}
