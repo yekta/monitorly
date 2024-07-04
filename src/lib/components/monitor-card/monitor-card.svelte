@@ -1,7 +1,7 @@
 <script lang="ts">
-	import CheckIcon from '@components/icons/check-icon.svelte';
-	import XIcon from '@components/icons/x-icon.svelte';
-	import type { TDataPoint } from '@components/status-card/types';
+	import CheckIcon from '@/lib/components/icons/check-icon.svelte';
+	import XIcon from '@/lib/components/icons/x-icon.svelte';
+	import type { TDataPoint } from '@/lib/components/monitor-card/types';
 
 	export let data: TDataPoint[];
 	export let title: string;
