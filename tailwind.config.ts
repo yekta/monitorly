@@ -1,25 +1,69 @@
+import { fontFamily } from 'tailwindcss/defaultTheme';
 import type { Config } from 'tailwindcss';
 
-export default {
+const config: Config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
-
+	safelist: ['dark'],
 	theme: {
-		transitionTimingFunction: {
-			DEFAULT: 'cubic-bezier(0, 0.5, 0.3, 1)'
+		container: {
+			center: true,
+			padding: '2rem',
+			screens: {
+				'2xl': '1400px'
+			}
 		},
 		extend: {
 			colors: {
+				border: 'rgb(var(--border) / <alpha-value>)',
+				input: 'rgb(var(--input) / <alpha-value>)',
+				ring: 'rgb(var(--ring) / <alpha-value>)',
 				background: {
-					DEFAULT: 'rgb(var(--background))',
-					secondary: 'rgb(var(--background-secondary))'
+					DEFAULT: 'rgb(var(--background) / <alpha-value>)',
+					secondary: 'rgb(var(--background-secondary) / <alpha-value>)'
 				},
 				foreground: {
-					DEFAULT: 'rgb(var(--foreground))',
-					faded: 'rgb(var(--foreground-faded))',
-					'faded-more': 'rgb(var(--foreground-faded-more))'
+					DEFAULT: 'rgb(var(--foreground) / <alpha-value>)',
+					faded: 'rgb(var(--foreground-faded) / <alpha-value>)',
+					'faded-more': 'rgb(var(--foreground-faded-more) / <alpha-value>)'
 				},
-				success: 'rgb(var(--success))',
-				fail: 'rgb(var(--fail))'
+				primary: {
+					DEFAULT: 'rgb(var(--primary) / <alpha-value>)',
+					foreground: 'rgb(var(--primary-foreground) / <alpha-value>)'
+				},
+				secondary: {
+					DEFAULT: 'rgb(var(--secondary) / <alpha-value>)',
+					foreground: 'rgb(var(--secondary-foreground) / <alpha-value>)'
+				},
+				destructive: {
+					DEFAULT: 'rgb(var(--destructive) / <alpha-value>)',
+					foreground: 'rgb(var(--destructive-foreground) / <alpha-value>)'
+				},
+				muted: {
+					DEFAULT: 'rgb(var(--muted) / <alpha-value>)',
+					foreground: 'rgb(var(--muted-foreground) / <alpha-value>)'
+				},
+				accent: {
+					DEFAULT: 'rgb(var(--accent) / <alpha-value>)',
+					foreground: 'rgb(var(--accent-foreground) / <alpha-value>)'
+				},
+				popover: {
+					DEFAULT: 'rgb(var(--popover) / <alpha-value>)',
+					foreground: 'rgb(var(--popover-foreground) / <alpha-value>)'
+				},
+				card: {
+					DEFAULT: 'rgb(var(--card) / <alpha-value>)',
+					foreground: 'rgb(var(--card-foreground) / <alpha-value>)'
+				},
+				success: 'rgb(var(--success) / <alpha-value>)',
+				fail: 'rgb(var(--fail) / <alpha-value>)'
+			},
+			borderRadius: {
+				lg: 'var(--radius)',
+				md: 'calc(var(--radius) - 2px)',
+				sm: 'calc(var(--radius) - 4px)'
+			},
+			fontFamily: {
+				sans: [...fontFamily.sans]
 			},
 			minHeight: {
 				'screen-small': 'var(--viewport-small-height)'
@@ -34,7 +78,7 @@ export default {
 				1.75: '0.4375rem'
 			}
 		}
-	},
+	}
+};
 
-	plugins: []
-} as Config;
+export default config;
