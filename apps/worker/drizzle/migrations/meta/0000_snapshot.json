@@ -1,5 +1,5 @@
 {
-  "id": "129fa502-07c3-497b-b669-5e4d68b9f0ad",
+  "id": "60abba79-de83-413a-9871-1440baae5304",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -28,12 +28,12 @@
           "notNull": true,
           "default": "now()"
         },
-        "is_success": {
-          "name": "is_success",
+        "is_fail": {
+          "name": "is_fail",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
-          "default": true
+          "default": false
         },
         "duration_ms": {
           "name": "duration_ms",

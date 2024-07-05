@@ -20,18 +20,18 @@ server.register(fastifyCron, {
       const startDate = new Date();
       const start = performance.now();
       let end = start;
-      let isSuccess = true;
+      let isFail = false;
 
       // Make the call
       try {
-        const res = await monitor.functionToRun();
-        console.log(`Job [${monitor.id}] finished with result: ${res}`);
-        if (res === false) {
-          isSuccess = false;
+        const isSuccess = await monitor.functionToRun();
+        console.log(`Job [${monitor.id}] finished with result: ${isSuccess}`);
+        if (isSuccess === false) {
+          isFail = true;
         }
       } catch (error) {
         console.error(`Job [${monitor.id}] failed with error`, error);
-        isSuccess = false;
+        isFail = true;
       } finally {
         end = performance.now();
       }
@@ -45,7 +45,7 @@ server.register(fastifyCron, {
             monitorId: monitor.id,
             checkedAt: startDate,
             durationMs,
-            isSuccess
+            isFail
           }
         ]);
         console.log(`Successfully wrote to database for job [${monitor.id}]`);
