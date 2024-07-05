@@ -4,13 +4,14 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT", ".env*"],
-      "outputs": [".svelte-kit/**", ".vercel/**", "dist/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
-    "lint": {},
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
     }
-  },
-  "globalEnv": ["DATABASE_URL"]
+  }
 }
