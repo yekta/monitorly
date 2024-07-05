@@ -1,5 +1,6 @@
 import { TDataPoint } from '@/components/monitor-card/monitor-card';
-import { sql, db } from '@statusly/worker/db';
+import { db } from '@/lib/db';
+import { sql } from '@statusly/worker/db-utils';
 import { monitors } from '../../monitor.config';
 
 type TMonitorWithData = {
