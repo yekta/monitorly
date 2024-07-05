@@ -14,7 +14,7 @@ export default async function Home() {
         <div className="flex w-full flex-col items-center">
           <CheckCircleIcon className="size-10 text-success" />
           <h1 className="mt-2 text-balance text-center text-2xl font-bold">
-            All Systems Operationall
+            All Systems Operational
           </h1>
           <LatestCheck latestDate={latestDate} className="mt-2" />
         </div>
