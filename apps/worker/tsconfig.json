@@ -10,9 +10,10 @@
     "skipLibCheck": true,
     "types": ["node"],
     "composite": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "rootDir": "../.."
   },
-  "include": ["src/**/*.ts", "drizzle/**/*.ts", "drizzle.config.ts"],
+  "include": ["../../*.ts", "src/**/*.ts", "drizzle/**/*.ts", "drizzle.config.ts"],
   "exclude": ["node_modules"],
   "exports": {
     ".": "./dist/src/index.js"
