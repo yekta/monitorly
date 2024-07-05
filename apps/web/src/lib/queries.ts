@@ -30,7 +30,7 @@ export async function getMonitors(): Promise<{
         SELECT generate_series(
             DATE_TRUNC('hour', NOW() AT TIME ZONE 'UTC' - INTERVAL '30 days'),
             NOW() AT TIME ZONE 'UTC',
-            '30 minutes'::interval
+            '1 hour'::interval
         ) AS interval
       ),
       monitor_date_combinations AS (
@@ -79,10 +79,10 @@ export async function getMonitors(): Promise<{
                       WHEN sc.new_state = TRUE THEN
                           LEAST(
                               EXTRACT(EPOCH FROM (
-                                  LEAST(sc.next_change_time, mdc.interval + INTERVAL '30 minutes') -
+                                  LEAST(sc.next_change_time, mdc.interval + INTERVAL '1 hour') -
                                   GREATEST(sc.change_time, mdc.interval)
                               )),
-                              1800
+                              3600
                           )
                       ELSE 0
                   END
@@ -91,7 +91,7 @@ export async function getMonitors(): Promise<{
               monitor_date_combinations mdc
           LEFT JOIN state_changes sc ON 
               mdc.monitor_id = sc.monitor_id AND
-              sc.change_time < mdc.interval + INTERVAL '30 minutes' AND
+              sc.change_time < mdc.interval + INTERVAL '1 hour' AND
               sc.next_change_time > mdc.interval
           GROUP BY
               mdc.monitor_id, mdc.interval
@@ -100,7 +100,7 @@ export async function getMonitors(): Promise<{
           SELECT
               monitor_id,
               DATE_TRUNC('hour', checked_at) +
-              (EXTRACT(MINUTE FROM checked_at)::int / 30 * INTERVAL '30 minutes') AS interval,
+              (EXTRACT(MINUTE FROM checked_at)::int / 60 * INTERVAL '1 hour') AS interval,
               COUNT(*) AS total_request_count,
               SUM(CASE WHEN is_fail THEN 1 ELSE 0 END) AS failed_request_count
           FROM
@@ -108,7 +108,7 @@ export async function getMonitors(): Promise<{
           GROUP BY
               monitor_id,
               DATE_TRUNC('hour', checked_at) +
-              (EXTRACT(MINUTE FROM checked_at)::int / 30 * INTERVAL '30 minutes')
+              (EXTRACT(MINUTE FROM checked_at)::int / 60 * INTERVAL '1 hour')
       ),
       latest_status AS (
           SELECT DISTINCT ON (monitor_id)
@@ -146,7 +146,7 @@ export async function getMonitors(): Promise<{
       FROM
           combined_results
       WHERE
-          interval > NOW() AT TIME ZONE 'UTC' - INTERVAL '15 hours'
+          interval > NOW() AT TIME ZONE 'UTC' - INTERVAL '30 hours'
       ORDER BY
           monitor_id, interval DESC;
  `);

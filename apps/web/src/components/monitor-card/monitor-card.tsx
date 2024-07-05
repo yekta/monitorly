@@ -12,7 +12,7 @@ export default function MonitorCard({
   data: TDataPoint[];
   latestTimestamp: number;
 }) {
-  const reversedData = data.sort((a, b) => a.timestamp - b.timestamp);
+  const reversedData = [...data].reverse();
   const cleanedData = reversedData.slice(
     reversedData.findIndex((dataPoint) => dataPoint.type !== 'no-data'),
     reversedData.length
@@ -29,6 +29,9 @@ export default function MonitorCard({
   const monitorUptime = durationInSeconds ? durationInSeconds - downtimeInSeconds : undefined;
   const uptimePercent =
     monitorUptime && durationInSeconds ? (monitorUptime / durationInSeconds) * 100 : 0;
+
+  const intervalInSeconds =
+    data.length > 1 ? Math.round((data[0].timestamp - data[1].timestamp) / 1000) : undefined;
 
   return (
     <div data-is-down={isDown ? true : undefined} className="group flex w-full max-w-lg flex-col">
@@ -55,6 +58,7 @@ export default function MonitorCard({
             key={`${dataPoint.id}-${index}`}
             data={dataPoint}
             index={index}
+            intervalInSeconds={intervalInSeconds}
             isLast={index === data.length - 1 ? true : false}
             isFirst={index === 0 ? true : false}
           />

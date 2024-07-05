@@ -9,12 +9,14 @@ export default function ChartLine({
   data,
   index,
   isFirst,
-  isLast
+  isLast,
+  intervalInSeconds
 }: {
   data: TDataPoint;
   index: number;
   isFirst: boolean;
   isLast: boolean;
+  intervalInSeconds: number | undefined;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -33,12 +35,12 @@ export default function ChartLine({
           setOpen(true);
         }}
         data-fail={data.type === 'fail' ? true : undefined}
-        data-no-requests={data.total_request_count === 0 ? true : undefined}
+        data-no-data={data.type === 'no-data' ? true : undefined}
         data-last={isLast ? true : undefined}
         data-first={isFirst ? true : undefined}
         className="group/bar relative flex h-12 w-full cursor-default px-px hover:brightness-90 hover:saturate-150 focus-visible:outline-none focus-visible:brightness-110 focus-visible:saturate-150 dark:hover:brightness-110"
       >
-        <div className="h-full w-full rounded-[1px] group-data-[no-requests]/bar:bg-background-secondary bg-success transition duration-100 group-hover/bar:scale-y-125 group-focus-visible/bar:scale-y-125 group-data-[first]/bar:rounded-l-lg group-data-[last]/bar:rounded-r-lg group-data-[fail]/bar:bg-fail"></div>
+        <div className="h-full w-full rounded-[1px] group-data-[fail]/bar:bg-fail group-data-[no-data]/bar:bg-background-secondary bg-success transition duration-100 group-hover/bar:scale-y-125 group-focus-visible/bar:scale-y-125 group-data-[first]/bar:rounded-l-lg group-data-[last]/bar:rounded-r-lg"></div>
       </TooltipTrigger>
       <TooltipContent collisionPadding={16} sideOffset={14} className="p-0" asChild>
         <div data-fail={data.type === 'fail' ? true : undefined} className="group flex flex-col">
@@ -58,7 +60,9 @@ export default function ChartLine({
                     : 'Downtime'}
               </p>
             </div>
-            <p className="text-sm text-foreground-muted">{getDay(data.timestamp)}</p>
+            <p className="text-sm text-foreground-muted">
+              {getDateString(data.timestamp, intervalInSeconds)}
+            </p>
           </div>
           {data.downtime_in_seconds > 0 && (
             <div className="flex items-center justify-between gap-2 px-3.5 pb-3 text-sm">
@@ -91,9 +95,21 @@ export default function ChartLine({
   );
 }
 
-function getDay(timestamp: number) {
+function getDateString(timestamp: number, intervalInSeconds: number | undefined) {
   const date = new Date(timestamp);
-  return date.toLocaleString(undefined, { month: 'short', day: 'numeric' });
+  if (!intervalInSeconds)
+    return date.toLocaleString(undefined, { month: 'short', day: 'numeric', hour12: false });
+  if (intervalInSeconds >= 86400) {
+    return date.toLocaleString(undefined, { month: 'short', day: 'numeric', hour12: false });
+  }
+
+  return date.toLocaleString(undefined, {
+    day: 'numeric',
+    month: 'short',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false
+  });
 }
 
 function getDowntimeStr(downtimeInSeconds: number) {
