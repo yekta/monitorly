@@ -33,6 +33,7 @@ export default function MonitorCard({ title, data }: { title: string; data: TDat
       <div className="-ml-px mt-2 flex w-[calc(100%+2px)]">
         {data.map((dataPoint, index) => (
           <ChartLine
+            key={`${dataPoint.id}-${index}`}
             data={dataPoint}
             index={index}
             isLast={index === data.length - 1 ? true : false}
