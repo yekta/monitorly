@@ -24,7 +24,7 @@
   },
   "references": [
     {
-      "path": "../worker"
+      "path": "../server"
     }
   ],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],

@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "server",
   "version": "0.0.1",
   "main": "index.js",
   "private": true,
@@ -7,13 +7,13 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/apps/worker/src/index.js",
+    "start": "node dist/apps/server/src/index.js",
     "db-generate": "drizzle-kit generate",
     "db-migrate": "drizzle-kit migrate",
     "db-drop": "drizzle-kit drop"
   },
   "author": "Muhammed Yekta Güngör",
-  "description": "The worker of the Statusly app.",
+  "description": "The server of the Statusly app.",
   "license": "MIT",
   "keywords": [
     "statusly",
@@ -36,8 +36,8 @@
     "drizzle-kit": "^0.22.8"
   },
   "exports": {
-    ".": "./dist/apps/worker/src/index.js",
-    "./db": "./dist/apps/worker/src/db/db.js",
-    "./db-utils": "./dist/apps/worker/src/db/utils.js"
+    ".": "./dist/apps/server/src/index.js",
+    "./db": "./dist/apps/server/src/db/db.js",
+    "./db-utils": "./dist/apps/server/src/db/utils.js"
   }
 }
