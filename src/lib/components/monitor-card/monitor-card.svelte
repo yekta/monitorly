@@ -57,7 +57,7 @@
 				</Tooltip.Trigger>
 				<Tooltip.Content sideOffset={14} class="p-0">
 					<div data-fail={item.type === 'fail' ? true : undefined} class="group flex flex-col">
-						<div class="flex items-center justify-between gap-2 px-3 py-2">
+						<div class="flex items-center justify-between gap-2 px-3.5 py-2.5">
 							<div class="flex items-center pr-6">
 								{#if item.type === 'fail'}
 									<XIcon class="-ml-0.5 mr-1 size-5 shrink-0 text-fail" />
@@ -68,10 +68,10 @@
 									{item.type === 'success' ? 'Operational' : 'Downtime'}
 								</p>
 							</div>
-							<p class="text-foreground-muted text-sm">{getDay(item.timestamp)}</p>
+							<p class="text-sm text-foreground-muted">{getDay(item.timestamp)}</p>
 						</div>
 						{#if item.downtime_in_seconds > 0}
-							<div class="flex items-center justify-between gap-2 px-3 pb-2 text-sm">
+							<div class="flex items-center justify-between gap-2 px-3.5 pb-3 text-sm">
 								<p class="text-foreground-muted">
 									<span class="font-semibold text-fail"
 										>{Math.round(item.downtime_in_seconds / 60).toLocaleString()} minutes</span
@@ -80,17 +80,18 @@
 							</div>
 						{/if}
 						<div
-							class="flex items-center justify-between gap-2 border-t border-background-secondary px-3 py-2 text-sm"
+							class="flex items-center justify-between gap-2 border-t border-background-secondary px-3.5 py-2.5 text-sm"
 						>
 							<p class="text-foreground-muted">
-								<span class="font-semibold text-success"
-									>{(item.total_request_count - item.failed_request_count).toLocaleString()}</span
-								>
+								<span class="font-semibold text-success">
+									{(item.total_request_count - item.failed_request_count).toLocaleString()}
+								</span>
 								successful
-								<span class="text-background-tertiary px-[0.5ch]">•</span>
-								<span class="font-semibold text-fail"
-									>{item.failed_request_count.toLocaleString()}</span
-								> failed
+								<span class="px-[0.5ch] text-background-tertiary">•</span>
+								<span class="font-semibold text-fail">
+									{item.failed_request_count.toLocaleString()}
+								</span>
+								failed
 							</p>
 						</div>
 					</div>
@@ -98,7 +99,7 @@
 			</Tooltip.Root>
 		{/each}
 	</div>
-	<div class="text-foreground-muted mt-2 flex w-full items-center justify-between gap-4 text-xs">
+	<div class="mt-2 flex w-full items-center justify-between gap-4 text-xs text-foreground-muted">
 		<p class="pr-4">30d ago</p>
 		<p class="pl-4">Today</p>
 	</div>
