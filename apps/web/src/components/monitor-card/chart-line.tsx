@@ -64,7 +64,7 @@ export default function ChartLine({
             <div className="flex items-center justify-between gap-2 px-3.5 pb-3 text-sm">
               <p className="text-foreground-muted">
                 <span className="font-semibold text-fail">
-                  {Math.round(data.downtime_in_seconds / 60).toLocaleString()} minutes
+                  {getDowntimeStr(data.downtime_in_seconds)}
                 </span>{' '}
                 of downtime
               </p>
@@ -94,4 +94,22 @@ export default function ChartLine({
 function getDay(timestamp: number) {
   const date = new Date(timestamp);
   return date.toLocaleString(undefined, { month: 'short', day: 'numeric' });
+}
+
+function getDowntimeStr(downtimeInSeconds: number) {
+  const intervals = [
+    { label: 'days', seconds: 86400, maxFractionDigits: 1 },
+    { label: 'hrs.', seconds: 3600, maxFractionDigits: 1 },
+    { label: 'min.', seconds: 60, maxFractionDigits: 0 },
+    { label: 'sec.', seconds: 1, maxFractionDigits: 0 }
+  ];
+  for (const interval of intervals) {
+    const diff = downtimeInSeconds / interval.seconds;
+    const diffRounded = Math.floor(diff);
+    if (diffRounded >= 1) {
+      return `${diff.toLocaleString(undefined, {
+        maximumFractionDigits: interval.maxFractionDigits
+      })} ${interval.label}`;
+    }
+  }
 }
