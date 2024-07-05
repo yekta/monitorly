@@ -15,16 +15,20 @@ export default function MonitorCard({
     reversedData.findIndex((dataPoint) => dataPoint.type !== 'no-data'),
     reversedData.length
   );
-  const startTimestamp = cleanedData[0].timestamp;
-  const endTimestamp = cleanedData[cleanedData.length - 1].timestamp;
-  const durationInSeconds = (endTimestamp - startTimestamp) / 1000;
+  const startTimestamp: number | undefined =
+    cleanedData.length > 0 ? cleanedData[0].timestamp : undefined;
+  const endTimestamp: number | undefined =
+    cleanedData.length > 0 ? cleanedData[cleanedData.length - 1].timestamp : undefined;
+  const durationInSeconds =
+    startTimestamp && endTimestamp ? (endTimestamp - startTimestamp) / 1000 : undefined;
   const downtimeInSeconds = cleanedData.reduce(
     (acc, dataPoint) => acc + dataPoint.downtime_in_seconds,
     0
   );
 
-  const monitorUptime = durationInSeconds - downtimeInSeconds;
-  const uptimePercent = (monitorUptime / durationInSeconds) * 100;
+  const monitorUptime = durationInSeconds ? durationInSeconds - downtimeInSeconds : undefined;
+  const uptimePercent =
+    monitorUptime && durationInSeconds ? (monitorUptime / durationInSeconds) * 100 : 0;
 
   return (
     <div data-is-down={isDown ? true : undefined} className="group flex w-full max-w-lg flex-col">

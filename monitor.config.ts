@@ -33,7 +33,7 @@ export const monitors: TMonitor[] = [
       const randomNumberPromise2 = waitAndGetRandomNumber();
 
       const result = await Promise.all([randomNumberPromise1, randomNumberPromise2]);
-      const isAllGood = result.every((number) => number > 0.05);
+      const isAllGood = result.every((number) => number > 0.01);
 
       return isAllGood;
     }

@@ -7,6 +7,7 @@ type TMonitorWithData = {
   id: string;
   title: string;
   data: TDataPoint[];
+  latestTimestamp: number;
   isDown: boolean;
 };
 
@@ -17,9 +18,12 @@ type TDataPointFromDB = {
   failed_request_count: string;
   downtime_seconds: string;
   is_down: string;
+  latest_timestamp: string;
 };
 
-export async function getMonitors(): Promise<TMonitorWithData[]> {
+export async function getMonitors(): Promise<{
+  data: TMonitorWithData[];
+}> {
   const res: TDataPointFromDB[] = await db.execute(sql`
 WITH date_series AS (
     SELECT generate_series(
@@ -71,7 +75,8 @@ interval_stats AS (
 latest_status AS (
     SELECT DISTINCT ON (monitor_id)
         monitor_id,
-        is_fail AS is_down
+        is_fail AS is_down,
+        checked_at AS latest_timestamp
     FROM
         ranked_checks
     ORDER BY
@@ -84,7 +89,8 @@ combined_results AS (
         COALESCE(ist.total_request_count, 0) AS total_request_count,
         COALESCE(ist.failed_request_count, 0) AS failed_request_count,
         COALESCE(ist.downtime_seconds, 0) AS downtime_seconds,
-        COALESCE(ls.is_down, false) AS is_down
+        COALESCE(ls.is_down, false) AS is_down,
+        ls.latest_timestamp
     FROM
         monitor_date_combinations mdc
         LEFT JOIN interval_stats ist ON mdc.monitor_id = ist.monitor_id AND mdc.interval = ist.interval
@@ -96,7 +102,8 @@ SELECT
     total_request_count,
     failed_request_count,
     downtime_seconds,
-    is_down
+    is_down,
+    latest_timestamp
 FROM (
     SELECT
         *,
@@ -122,12 +129,13 @@ ORDER BY
 
   let monitorsWithData: TMonitorWithData[] = [];
 
-  Object.entries(monitorsMap).forEach(([monitorId, data]) => {
+  Object.entries(monitorsMap).forEach(([monitorId, monitorData]) => {
     const monitor: TMonitorWithData = {
       id: monitorId,
-      isDown: data.some((row) => row.is_down),
+      isDown: monitorData.some((row) => row.is_down),
       title: monitors.find((m) => m.id === monitorId)?.title || 'Unknown Monitor',
-      data: data.map((row) => {
+      latestTimestamp: new Date(monitorData[0].latest_timestamp).getTime(),
+      data: monitorData.map((row) => {
         const total_request_count = parseInt(row.total_request_count);
         return {
           id: `${row.monitor_id}-${row.interval}`,
@@ -147,5 +155,7 @@ ORDER BY
     monitorsWithData.push(monitor);
   });
 
-  return monitorsWithData;
+  return {
+    data: monitorsWithData
+  };
 }
