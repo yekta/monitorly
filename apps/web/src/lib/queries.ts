@@ -24,97 +24,98 @@ type TDataPointFromDB = {
 export async function getMonitors(): Promise<{
   data: TMonitorWithData[];
 }> {
+  const start = Date.now();
   const res: TDataPointFromDB[] = await db.execute(sql`
-WITH date_series AS (
-    SELECT generate_series(
-        DATE_TRUNC('hour', NOW() - INTERVAL '30 days'),
-        NOW(),
-        '30 minutes'::interval
-    ) AS interval
-),
-monitor_date_combinations AS (
+    WITH date_series AS (
+        SELECT generate_series(
+            DATE_TRUNC('hour', NOW() - INTERVAL '30 days'),
+            NOW(),
+            '30 minutes'::interval
+        ) AS interval
+    ),
+    monitor_date_combinations AS (
+        SELECT
+            m.monitor_id,
+            d.interval
+        FROM
+            (SELECT DISTINCT monitor_id FROM status_checks) m
+            CROSS JOIN date_series d
+    ),
+    ranked_checks AS (
+        SELECT
+            id,
+            monitor_id,
+            checked_at AT TIME ZONE 'UTC' AS checked_at,
+            is_fail,
+            duration_ms,
+            LAG(checked_at) OVER (PARTITION BY monitor_id ORDER BY checked_at) AS previous_checked_at,
+            LAG(is_fail) OVER (PARTITION BY monitor_id ORDER BY checked_at) AS previous_is_fail,
+            LEAD(checked_at) OVER (PARTITION BY monitor_id ORDER BY checked_at) AS next_checked_at
+        FROM
+            status_checks
+        WHERE
+            checked_at >= NOW() - INTERVAL '30 days'
+    ),
+    interval_stats AS (
+        SELECT
+            monitor_id,
+            DATE_TRUNC('hour', checked_at) + 
+            (EXTRACT(MINUTE FROM checked_at)::int / 30 * INTERVAL '30 minutes') AS interval,
+            COUNT(*) AS total_request_count,
+            SUM(CASE WHEN is_fail THEN 1 ELSE 0 END) AS failed_request_count,
+            SUM(CASE WHEN is_fail THEN 
+                EXTRACT(EPOCH FROM (COALESCE(next_checked_at, NOW() AT TIME ZONE 'UTC') - checked_at))
+            ELSE 0 END) AS downtime_seconds
+        FROM
+            ranked_checks
+        GROUP BY
+            monitor_id,
+            DATE_TRUNC('hour', checked_at) + 
+            (EXTRACT(MINUTE FROM checked_at)::int / 30 * INTERVAL '30 minutes')
+    ),
+    latest_status AS (
+        SELECT DISTINCT ON (monitor_id)
+            monitor_id,
+            is_fail AS is_down,
+            checked_at AS latest_timestamp
+        FROM
+            ranked_checks
+        ORDER BY
+            monitor_id, checked_at DESC
+    ),
+    combined_results AS (
+        SELECT
+            mdc.monitor_id,
+            mdc.interval,
+            COALESCE(ist.total_request_count, 0) AS total_request_count,
+            COALESCE(ist.failed_request_count, 0) AS failed_request_count,
+            COALESCE(ist.downtime_seconds, 0) AS downtime_seconds,
+            COALESCE(ls.is_down, false) AS is_down,
+            ls.latest_timestamp
+        FROM
+            monitor_date_combinations mdc
+            LEFT JOIN interval_stats ist ON mdc.monitor_id = ist.monitor_id AND mdc.interval = ist.interval
+            LEFT JOIN latest_status ls ON mdc.monitor_id = ls.monitor_id
+    )
     SELECT
-        m.monitor_id,
-        d.interval
-    FROM
-        (SELECT DISTINCT monitor_id FROM status_checks) m
-        CROSS JOIN date_series d
-),
-ranked_checks AS (
-    SELECT
-        id,
         monitor_id,
-        checked_at AT TIME ZONE 'UTC' AS checked_at,
-        is_fail,
-        duration_ms,
-        LAG(checked_at) OVER (PARTITION BY monitor_id ORDER BY checked_at) AS previous_checked_at,
-        LAG(is_fail) OVER (PARTITION BY monitor_id ORDER BY checked_at) AS previous_is_fail,
-        LEAD(checked_at) OVER (PARTITION BY monitor_id ORDER BY checked_at) AS next_checked_at
-    FROM
-        status_checks
+        interval,
+        total_request_count,
+        failed_request_count,
+        downtime_seconds,
+        is_down,
+        latest_timestamp
+    FROM (
+        SELECT
+            *,
+            ROW_NUMBER() OVER (PARTITION BY monitor_id ORDER BY interval DESC) AS rn
+        FROM
+            combined_results
+    ) subquery
     WHERE
-        checked_at >= NOW() - INTERVAL '30 days'
-),
-interval_stats AS (
-    SELECT
-        monitor_id,
-        DATE_TRUNC('hour', checked_at) + 
-         (EXTRACT(MINUTE FROM checked_at)::int / 30 * INTERVAL '30 minutes') AS interval,
-        COUNT(*) AS total_request_count,
-        SUM(CASE WHEN is_fail THEN 1 ELSE 0 END) AS failed_request_count,
-        SUM(CASE WHEN is_fail THEN 
-            EXTRACT(EPOCH FROM (COALESCE(next_checked_at, NOW() AT TIME ZONE 'UTC') - checked_at))
-        ELSE 0 END) AS downtime_seconds
-    FROM
-        ranked_checks
-    GROUP BY
-        monitor_id,
-        DATE_TRUNC('hour', checked_at) + 
-         (EXTRACT(MINUTE FROM checked_at)::int / 30 * INTERVAL '30 minutes')
-),
-latest_status AS (
-    SELECT DISTINCT ON (monitor_id)
-        monitor_id,
-        is_fail AS is_down,
-        checked_at AS latest_timestamp
-    FROM
-        ranked_checks
+        rn <= 30
     ORDER BY
-        monitor_id, checked_at DESC
-),
-combined_results AS (
-    SELECT
-        mdc.monitor_id,
-        mdc.interval,
-        COALESCE(ist.total_request_count, 0) AS total_request_count,
-        COALESCE(ist.failed_request_count, 0) AS failed_request_count,
-        COALESCE(ist.downtime_seconds, 0) AS downtime_seconds,
-        COALESCE(ls.is_down, false) AS is_down,
-        ls.latest_timestamp
-    FROM
-        monitor_date_combinations mdc
-        LEFT JOIN interval_stats ist ON mdc.monitor_id = ist.monitor_id AND mdc.interval = ist.interval
-        LEFT JOIN latest_status ls ON mdc.monitor_id = ls.monitor_id
-)
-SELECT
-    monitor_id,
-    interval,
-    total_request_count,
-    failed_request_count,
-    downtime_seconds,
-    is_down,
-    latest_timestamp
-FROM (
-    SELECT
-        *,
-        ROW_NUMBER() OVER (PARTITION BY monitor_id ORDER BY interval DESC) AS rn
-    FROM
-        combined_results
-) subquery
-WHERE
-    rn <= 30
-ORDER BY
-    monitor_id, interval DESC;
+        monitor_id, interval DESC;
  `);
 
   const monitorsMap: Record<string, TDataPointFromDB[]> = {};
@@ -154,6 +155,8 @@ ORDER BY
     };
     monitorsWithData.push(monitor);
   });
+
+  console.log(`getMonitors() -> ${Date.now() - start} ms`);
 
   return {
     data: monitorsWithData
