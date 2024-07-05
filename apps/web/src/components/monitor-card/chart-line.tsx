@@ -57,7 +57,7 @@ export default function ChartLine({
                   ? 'No data'
                   : data.type === 'success'
                     ? 'Operational'
-                    : 'Downtime'}
+                    : 'Incident'}
               </p>
             </div>
             <p className="text-sm text-foreground-muted">
