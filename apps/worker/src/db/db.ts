@@ -5,7 +5,7 @@ import { sql } from 'drizzle-orm';
 
 const databaseUrl = process.env.DATABASE_URL!;
 if (!databaseUrl) {
-  throw new Error('DATABASE_URL is not set');
+  throw new Error('DATABASE_URL must be set');
 }
 const client = postgres(databaseUrl);
 const db = drizzle(client);
