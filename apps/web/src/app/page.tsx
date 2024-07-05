@@ -1,4 +1,4 @@
-import MonitorCard, { TDataPoint } from '@/components/monitor-card';
+import MonitorCard, { TDataPoint } from '@/components/monitor-card/monitor-card';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { monitors } from '../../monitor.config';
 
