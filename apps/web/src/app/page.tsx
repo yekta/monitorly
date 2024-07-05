@@ -25,6 +25,7 @@ export default async function Home() {
               key={monitor.id}
               data={monitor.data}
               title={monitor.title}
+              latestTimestamp={monitor.latestTimestamp}
             />
           ))}
         </div>

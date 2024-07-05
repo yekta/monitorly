@@ -4,11 +4,13 @@ import { XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/solid';
 export default function MonitorCard({
   title,
   isDown,
-  data
+  data,
+  latestTimestamp
 }: {
   title: string;
   isDown: boolean;
   data: TDataPoint[];
+  latestTimestamp: number;
 }) {
   const reversedData = data.sort((a, b) => a.timestamp - b.timestamp);
   const cleanedData = reversedData.slice(
@@ -17,10 +19,8 @@ export default function MonitorCard({
   );
   const startTimestamp: number | undefined =
     cleanedData.length > 0 ? cleanedData[0].timestamp : undefined;
-  const endTimestamp: number | undefined =
-    cleanedData.length > 0 ? cleanedData[cleanedData.length - 1].timestamp : undefined;
   const durationInSeconds =
-    startTimestamp && endTimestamp ? (endTimestamp - startTimestamp) / 1000 : undefined;
+    startTimestamp && latestTimestamp ? (latestTimestamp - startTimestamp) / 1000 : undefined;
   const downtimeInSeconds = cleanedData.reduce(
     (acc, dataPoint) => acc + dataPoint.downtime_in_seconds,
     0
