@@ -55,7 +55,7 @@ export default function ChartLine({
             <p className="text-sm text-foreground-muted">{getDay(data.timestamp)}</p>
           </div>
           {data.downtime_in_seconds > 0 && (
-            <div className="-mt-0.5 flex items-center justify-between gap-2 px-3.5 pb-3 text-sm">
+            <div className="flex items-center justify-between gap-2 px-3.5 pb-3 text-sm">
               <p className="text-foreground-muted">
                 <span className="font-semibold text-fail">
                   {Math.round(data.downtime_in_seconds / 60).toLocaleString()} minutes
@@ -70,7 +70,7 @@ export default function ChartLine({
                 {(data.total_request_count - data.failed_request_count).toLocaleString()}
               </span>{' '}
               successful
-              <span className="px-[0.5ch] text-background-tertiary">•</span>{' '}
+              <span className="px-[1ch] text-background-tertiary">•</span>
               <span className="font-semibold text-fail">
                 {data.failed_request_count.toLocaleString()}
               </span>{' '}
