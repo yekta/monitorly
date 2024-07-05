@@ -1,9 +1,12 @@
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
+import { statusChecks } from '../../drizzle/schema.js';
+import { sql } from 'drizzle-orm';
 
 const databaseUrl = process.env.DATABASE_URL!;
 if (!databaseUrl) {
   throw new Error('DATABASE_URL is not set');
 }
 const client = postgres(databaseUrl);
-export const db = drizzle(client);
+const db = drizzle(client);
+export { statusChecks, db, sql };

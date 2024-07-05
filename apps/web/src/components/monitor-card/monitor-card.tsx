@@ -1,25 +1,40 @@
 import ChartLine from '@/components/monitor-card/chart-line';
 import { XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/solid';
 
-export default function MonitorCard({ title, data }: { title: string; data: TDataPoint[] }) {
-  const uptime = data.filter((dataPoint) => dataPoint.type === 'success').length / data.length;
-  const uptimePercent = uptime * 100;
+export default function MonitorCard({
+  title,
+  isDown,
+  data
+}: {
+  title: string;
+  isDown: boolean;
+  data: TDataPoint[];
+}) {
+  const reversedData = data.sort((a, b) => a.timestamp - b.timestamp);
+  const cleanedData = reversedData.slice(
+    reversedData.findIndex((dataPoint) => dataPoint.type !== 'no-data'),
+    reversedData.length
+  );
+  const startTimestamp = cleanedData[0].timestamp;
+  const endTimestamp = cleanedData[cleanedData.length - 1].timestamp;
+  const durationInSeconds = (endTimestamp - startTimestamp) / 1000;
+  const downtimeInSeconds = cleanedData.reduce(
+    (acc, dataPoint) => acc + dataPoint.downtime_in_seconds,
+    0
+  );
 
-  const currentIsFail = data[data.length - 1]?.type === 'fail';
+  const monitorUptime = durationInSeconds - downtimeInSeconds;
+  const uptimePercent = (monitorUptime / durationInSeconds) * 100;
 
   return (
-    <div
-      data-current-is-fail={currentIsFail ? true : undefined}
-      className="group flex w-full max-w-lg flex-col"
-    >
+    <div data-is-down={isDown ? true : undefined} className="group flex w-full max-w-lg flex-col">
       <div className="flex w-full flex-wrap items-center justify-start gap-0.5">
         <div className="flex flex-1 items-center pr-4">
-          {currentIsFail ? (
+          {isDown ? (
             <XCircleIcon className="-ml-0.5 mr-1 size-5 shrink-0 text-fail" />
           ) : (
             <CheckCircleIcon className="-ml-0.5 mr-1 size-5 shrink-0 text-success" />
           )}
-
           <h2 className="flex-1 text-lg font-bold">{title}</h2>
         </div>
         <p className="rounded-md bg-success/15 px-1.5 py-0.75 text-center text-xs font-semibold text-success">
@@ -31,7 +46,7 @@ export default function MonitorCard({ title, data }: { title: string; data: TDat
         </p>
       </div>
       <div className="-ml-px mt-2 flex w-[calc(100%+2px)]">
-        {data.map((dataPoint, index) => (
+        {reversedData.map((dataPoint, index) => (
           <ChartLine
             key={`${dataPoint.id}-${index}`}
             data={dataPoint}
@@ -50,8 +65,8 @@ export default function MonitorCard({ title, data }: { title: string; data: TDat
 }
 
 export type TDataPoint = {
-  id: number;
-  type: 'success' | 'fail';
+  id: string;
+  type: 'success' | 'fail' | 'no-data';
   timestamp: number;
   total_request_count: number;
   failed_request_count: number;
