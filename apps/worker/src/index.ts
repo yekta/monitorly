@@ -66,6 +66,6 @@ server.get('/health', async (request, reply) => {
 
 server.listen({ port: PORT }, (err, address) => {
   if (err) throw err;
-  server.log.info(`Server is now listening on ${address}`);
+  console.log(`Server is now listening on port: ${PORT}`);
   server.cron.startAllJobs();
 });
