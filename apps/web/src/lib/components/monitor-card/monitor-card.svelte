@@ -44,7 +44,7 @@
 	</div>
 	<div class="-ml-px mt-2 flex w-[calc(100%+2px)]">
 		{#each data as item, index (item.id)}
-			<Tooltip.Root openDelay={50} closeDelay={0} group="bars">
+			<Tooltip.Root openDelay={50} closeDelay={0} group="bars" closeOnPointerDown={false}>
 				<Tooltip.Trigger
 					data-fail={item.type === 'fail' ? true : undefined}
 					data-last={index === data.length - 1 ? true : undefined}
