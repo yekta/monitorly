@@ -6,10 +6,11 @@
 	:root {
 		--background: 255 255 255;
 		--background-secondary: 235 235 235;
+		--background-tertiary: 220 220 220;
 
 		--foreground: 0 0 0;
-		--foreground-faded: 100 100 100;
-		--foreground-faded-more: 130 130 130;
+		--foreground-muted: 100 100 100;
+		--foreground-muted-more: 130 130 130;
 
 		--muted: 210 40% 96.1%;
 		--muted-foreground: 215.4 16.3% 46.9%;
@@ -48,10 +49,11 @@
 		:root {
 			--background: 0 0 10;
 			--background-secondary: 30 30 40;
+			--background-tertiary: 45 45 55;
 
 			--foreground: 240 240 250;
-			--foreground-faded: 150 150 160;
-			--foreground-faded-more: 120 120 130;
+			--foreground-muted: 150 150 160;
+			--foreground-muted-more: 120 120 130;
 
 			--muted: 210 40% 96.1%;
 			--muted-foreground: 215.4 16.3% 46.9%;

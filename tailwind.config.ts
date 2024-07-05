@@ -19,12 +19,13 @@ const config: Config = {
 				ring: 'rgb(var(--ring) / <alpha-value>)',
 				background: {
 					DEFAULT: 'rgb(var(--background) / <alpha-value>)',
-					secondary: 'rgb(var(--background-secondary) / <alpha-value>)'
+					secondary: 'rgb(var(--background-secondary) / <alpha-value>)',
+					tertiary: 'rgb(var(--background-tertiary) / <alpha-value>)'
 				},
 				foreground: {
 					DEFAULT: 'rgb(var(--foreground) / <alpha-value>)',
-					faded: 'rgb(var(--foreground-faded) / <alpha-value>)',
-					'faded-more': 'rgb(var(--foreground-faded-more) / <alpha-value>)'
+					muted: 'rgb(var(--foreground-muted) / <alpha-value>)',
+					'muted-more': 'rgb(var(--foreground-muted-more) / <alpha-value>)'
 				},
 				primary: {
 					DEFAULT: 'rgb(var(--primary) / <alpha-value>)',
