@@ -55,6 +55,7 @@ const config: Config = {
 					DEFAULT: 'rgb(var(--card) / <alpha-value>)',
 					foreground: 'rgb(var(--card-foreground) / <alpha-value>)'
 				},
+				shadow: 'rgb(var(--shadow) / <alpha-value>)',
 				success: 'rgb(var(--success) / <alpha-value>)',
 				fail: 'rgb(var(--fail) / <alpha-value>)'
 			},

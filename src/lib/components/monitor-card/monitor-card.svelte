@@ -71,7 +71,7 @@
 							<p class="text-sm text-foreground-muted">{getDay(item.timestamp)}</p>
 						</div>
 						{#if item.downtime_in_seconds > 0}
-							<div class="flex items-center justify-between gap-2 px-3.5 pb-3 text-sm">
+							<div class="-mt-0.5 flex items-center justify-between gap-2 px-3.5 pb-3 text-sm">
 								<p class="text-foreground-muted">
 									<span class="font-semibold text-fail"
 										>{Math.round(item.downtime_in_seconds / 60).toLocaleString()} minutes</span

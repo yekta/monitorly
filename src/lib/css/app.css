@@ -43,6 +43,9 @@
 		--success: 50 160 100;
 		--fail: 190 50 80;
 		--viewport-small-height: 100vh;
+
+		--shadow: 0 0 0;
+		--o-shadow: 0.15;
 	}
 
 	@media (prefers-color-scheme: dark) {
@@ -84,7 +87,10 @@
 			--radius: 0.5rem;
 
 			--success: 100 235 150;
-			--fail: 215 100 130;
+			--fail: 235 110 140;
+
+			--shadow: 0 0 0;
+			--o-shadow: 1;
 		}
 	}
 
