@@ -37,7 +37,6 @@
   },
   "exports": {
     ".": "./dist/apps/worker/src/index.js",
-    "./db": "./dist/apps/worker/src/db/db.js",
-    "./db-web": "./dist/apps/worker/src/db/web.js"
+    "./db": "./dist/apps/worker/src/db/db.js"
   }
 }
