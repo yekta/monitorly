@@ -43,13 +43,28 @@ export async function getMonitors({
             ${interval}::interval AS interval_duration,
             ${dateRange}::interval AS date_range
     ),
-    date_series AS (
+    date_series_days AS (
+        SELECT 
+            generate_series(
+                DATE_TRUNC('day', NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params)),
+                DATE_TRUNC('day', NOW() AT TIME ZONE 'UTC'),
+                '1 day'::interval
+            ) AS interval
+        WHERE (SELECT interval_duration FROM params) >= INTERVAL '1 day'
+    ),
+    date_series_hours AS (
         SELECT 
             generate_series(
                 DATE_TRUNC('hour', NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params)),
                 NOW() AT TIME ZONE 'UTC',
                 (SELECT interval_duration FROM params)
             ) AS interval
+        WHERE (SELECT interval_duration FROM params) < INTERVAL '1 day'
+    ),
+    date_series AS (
+        SELECT interval FROM date_series_days
+        UNION ALL
+        SELECT interval FROM date_series_hours
     ),
     monitor_date_combinations AS (
         SELECT
@@ -72,7 +87,12 @@ export async function getMonitors({
         FROM
             status_checks
         WHERE
-            checked_at >= NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params)
+            checked_at >= CASE 
+                WHEN (SELECT interval_duration FROM params) >= INTERVAL '1 day' THEN
+                    DATE_TRUNC('day', NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params))
+                ELSE
+                    DATE_TRUNC('hour', NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params))
+            END
     ),
     state_changes AS (
         SELECT
@@ -165,7 +185,12 @@ export async function getMonitors({
     FROM
         combined_results
     WHERE
-        interval > NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params)
+        interval >= CASE 
+            WHEN (SELECT interval_duration FROM params) >= INTERVAL '1 day' THEN
+                DATE_TRUNC('day', NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params))
+            ELSE
+                DATE_TRUNC('hour', NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params))
+        END
     ORDER BY
         monitor_id, interval DESC;
  `);

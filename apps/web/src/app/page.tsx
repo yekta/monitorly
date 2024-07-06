@@ -6,7 +6,7 @@ import { CheckCircleIcon, ExclamationTriangleIcon, XCircleIcon } from '@heroicon
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const { data } = await getMonitors({ intervalDuration: 1, intervalUnit: 'day', limit: 30 });
+  const { data } = await getMonitors({ intervalDuration: 2, intervalUnit: 'hour', limit: 30 });
   const latestTimestamp = Math.max(...data.map((m) => m.latestTimestamp));
   const partialOutage = data.some((m) => m.isDown);
   const completeOutage = data.every((m) => m.isDown);
