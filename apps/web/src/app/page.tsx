@@ -6,8 +6,8 @@ import { CheckCircleIcon, ExclamationTriangleIcon, XCircleIcon } from '@heroicon
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const { data } = await getMonitors({ intervalDuration: 2, intervalUnit: 'hours', limit: 30 });
-  const latestDate = new Date(Math.max(...data.map((m) => m.latestTimestamp)));
+  const { data } = await getMonitors({ intervalDuration: 1, intervalUnit: 'day', limit: 30 });
+  const latestTimestamp = Math.max(...data.map((m) => m.latestTimestamp));
   const partialOutage = data.some((m) => m.isDown);
   const completeOutage = data.every((m) => m.isDown);
   return (
@@ -28,7 +28,7 @@ export default async function Home() {
                 ? 'Partial outage'
                 : 'All systems operational'}
           </h1>
-          <LatestCheck latestDate={latestDate} className="mt-2.5" />
+          <LatestCheck timestamp={latestTimestamp} className="mt-2.5" />
         </div>
         <div className="mt-8 flex w-full max-w-3xl flex-col items-center justify-start gap-8">
           {data.map((monitor) => (

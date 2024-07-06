@@ -6,16 +6,15 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function timeAgo({
-  date,
-  now = new Date(),
+  timestamp,
+  now = Date.now(),
   locale
 }: {
-  date: Date;
-  now?: Date;
+  timestamp: number;
+  now?: number;
   locale?: string;
 }): string {
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'always', style: 'short' });
-  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+  const seconds = Math.floor((now - timestamp) / 1000);
 
   const intervals: { unit: Intl.RelativeTimeFormatUnit; seconds: number }[] = [
     { unit: 'year', seconds: 31536000 },
@@ -26,12 +25,22 @@ export function timeAgo({
     { unit: 'second', seconds: 1 }
   ];
 
+  let diff = 0;
+  let unit: Intl.RelativeTimeFormatUnit = 'second';
+
   for (const interval of intervals) {
-    const diff = Math.floor(seconds / interval.seconds);
-    if (diff >= 1) {
-      return rtf.format(-diff, interval.unit);
+    const _diff = Math.floor(seconds / interval.seconds);
+    if (_diff >= 1) {
+      unit = interval.unit;
+      diff = _diff;
+      break;
     }
   }
 
-  return rtf.format(0, 'second');
+  const rtf = new Intl.RelativeTimeFormat(locale, {
+    numeric: diff === 0 && unit === 'second' ? 'auto' : 'always',
+    style: 'short'
+  });
+
+  return rtf.format(-diff, unit);
 }

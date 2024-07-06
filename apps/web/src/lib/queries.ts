@@ -28,7 +28,7 @@ export async function getMonitors({
   limit
 }: {
   intervalDuration: number;
-  intervalUnit: 'hours' | 'days';
+  intervalUnit: 'hour' | 'day';
   limit: number;
 }): Promise<{
   data: TMonitorWithData[];

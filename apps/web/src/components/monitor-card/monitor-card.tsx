@@ -48,7 +48,7 @@ export default function MonitorCard({
           )}
           <h2 className="flex-1 text-lg font-bold">{title}</h2>
         </div>
-        <p className="rounded-md bg-success/15 px-1.5 py-0.75 text-center text-xs font-semibold text-success">
+        <p className="rounded-md bg-background-secondary px-1.5 py-0.75 text-center text-xs font-medium text-foreground-muted">
           {uptimePercent.toLocaleString(appLocale, {
             maximumFractionDigits: 2,
             minimumFractionDigits: 2
@@ -70,9 +70,11 @@ export default function MonitorCard({
       </div>
       <div className="mt-2 flex w-full items-center justify-between gap-2 text-xs text-foreground-muted">
         <p className="pr-3 shrink overflow-hidden overflow-ellipsis whitespace-nowrap">
-          {timeAgo({ date: new Date(earliestTimestamp), locale: appLocale })}
+          {timeAgo({ timestamp: earliestTimestamp, locale: appLocale })}
         </p>
-        <p className="pl-3 shrink overflow-hidden overflow-ellipsis whitespace-nowrap">Today</p>
+        <p className="pl-3 shrink overflow-hidden overflow-ellipsis whitespace-nowrap">
+          {timeAgo({ timestamp: Date.now(), locale: appLocale })}
+        </p>
       </div>
     </div>
   );
