@@ -10,9 +10,6 @@ export function LatestCheck({ timestamp, className }: { timestamp: number; class
   useInterval(() => {
     setNow(Date.now());
   }, 1000);
-
-  console.log('timestamp', timestamp);
-  console.log('now', now);
   return (
     <p className={cn('text-center text-sm text-foreground-muted', className)}>
       <span className="text-foreground-muted-more">Last check:</span>{' '}

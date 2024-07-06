@@ -120,10 +120,11 @@ function getDateString({
   locale?: string;
 }) {
   const date = new Date(timestamp);
+  const timeZone = 'UTC';
   if (!intervalInSeconds)
-    return date.toLocaleString(locale, { month: 'short', day: 'numeric', hour12: false });
+    return date.toLocaleString(locale, { month: 'short', day: 'numeric', hour12: false, timeZone });
   if (intervalInSeconds >= 86400) {
-    return date.toLocaleString(locale, { month: 'short', day: 'numeric', hour12: false });
+    return date.toLocaleString(locale, { month: 'short', day: 'numeric', hour12: false, timeZone });
   }
 
   return date.toLocaleString(locale, {
@@ -131,7 +132,8 @@ function getDateString({
     month: 'short',
     hour: 'numeric',
     minute: 'numeric',
-    hour12: false
+    hour12: false,
+    timeZone
   });
 }
 
