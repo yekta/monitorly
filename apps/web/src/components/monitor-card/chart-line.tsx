@@ -2,7 +2,7 @@
 
 import { TDataPoint } from '@/components/monitor-card/monitor-card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { ExclamationTriangleIcon, HandThumbUpIcon } from '@heroicons/react/24/solid';
+import { ExclamationTriangleIcon, HandThumbUpIcon, NoSymbolIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import { appLocale } from '@/lib/constants';
 
@@ -56,6 +56,9 @@ export default function ChartLine({
               )}
               {isSuccess && (
                 <HandThumbUpIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-success" />
+              )}
+              {hasNoData && (
+                <NoSymbolIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-foreground" />
               )}
               <p className="min-w-0 flex-shrink overflow-hidden overflow-ellipsis font-semibold">
                 {hasNoData ? 'No data' : isSuccess ? 'No incidents' : 'Incident'}
