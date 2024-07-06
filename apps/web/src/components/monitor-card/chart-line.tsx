@@ -2,7 +2,7 @@
 
 import { TDataPoint } from '@/components/monitor-card/monitor-card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { ExclamationTriangleIcon, HandThumbUpIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
 export default function ChartLine({
@@ -47,16 +47,16 @@ export default function ChartLine({
           <div className="flex items-center justify-between gap-2 px-3.5 py-2.5">
             <div className="flex items-center pr-6">
               {data.type === 'fail' && (
-                <XCircleIcon className="-ml-0.5 mr-1 size-5 shrink-0 text-fail" />
+                <ExclamationTriangleIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-fail" />
               )}
               {data.type === 'success' && (
-                <CheckCircleIcon className="-ml-0.5 mr-1 size-5 shrink-0 text-success" />
+                <HandThumbUpIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-success" />
               )}
               <p className="min-w-0 flex-shrink overflow-hidden overflow-ellipsis font-semibold">
                 {data.type === 'no-data'
                   ? 'No data'
                   : data.type === 'success'
-                    ? 'Operational'
+                    ? 'No incidents'
                     : 'Incident'}
               </p>
             </div>

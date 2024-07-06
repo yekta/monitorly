@@ -62,7 +62,8 @@ const config = {
         },
         shadow: 'rgb(var(--shadow) / <alpha-value>)',
         success: 'rgb(var(--success) / <alpha-value>)',
-        fail: 'rgb(var(--fail) / <alpha-value>)'
+        fail: 'rgb(var(--fail) / <alpha-value>)',
+        warning: 'rgb(var(--warning) / <alpha-value>)'
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',

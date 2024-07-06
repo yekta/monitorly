@@ -38,9 +38,9 @@ export default function MonitorCard({
       <div className="flex w-full flex-wrap items-center justify-start gap-0.5">
         <div className="flex flex-1 items-center pr-4">
           {isDown ? (
-            <XCircleIcon className="-ml-0.5 mr-1 size-5 shrink-0 text-fail" />
+            <XCircleIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-fail" />
           ) : (
-            <CheckCircleIcon className="-ml-0.5 mr-1 size-5 shrink-0 text-success" />
+            <CheckCircleIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-success" />
           )}
           <h2 className="flex-1 text-lg font-bold">{title}</h2>
         </div>

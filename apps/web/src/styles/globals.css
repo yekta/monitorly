@@ -42,6 +42,7 @@
 
     --success: 50 160 100;
     --fail: 190 50 80;
+    --warning: 220 90 0;
 
     --shadow: 0 0 0;
     --o-shadow: 0.12;
@@ -89,6 +90,7 @@
 
       --success: 100 235 150;
       --fail: 235 110 140;
+      --warning: 255 160 100;
 
       --shadow: 0 0 0;
       --o-shadow: 1;
