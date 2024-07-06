@@ -1,16 +1,20 @@
 import ChartLine from '@/components/monitor-card/chart-line';
+import { appLocale } from '@/lib/constants';
+import { timeAgo } from '@/lib/utils';
 import { XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/solid';
 
 export default function MonitorCard({
   title,
   isDown,
   data,
-  latestTimestamp
+  latestTimestamp,
+  earliestTimestamp
 }: {
   title: string;
   isDown: boolean;
   data: TDataPoint[];
   latestTimestamp: number;
+  earliestTimestamp: number;
 }) {
   const reversedData = [...data].reverse();
   const cleanedData = reversedData.slice(
@@ -45,7 +49,7 @@ export default function MonitorCard({
           <h2 className="flex-1 text-lg font-bold">{title}</h2>
         </div>
         <p className="rounded-md bg-success/15 px-1.5 py-0.75 text-center text-xs font-semibold text-success">
-          {uptimePercent.toLocaleString(undefined, {
+          {uptimePercent.toLocaleString(appLocale, {
             maximumFractionDigits: 2,
             minimumFractionDigits: 2
           })}
@@ -64,9 +68,11 @@ export default function MonitorCard({
           />
         ))}
       </div>
-      <div className="mt-2 flex w-full items-center justify-between gap-4 text-xs text-foreground-muted">
-        <p className="pr-4">30d ago</p>
-        <p className="pl-4">Today</p>
+      <div className="mt-2 flex w-full items-center justify-between gap-2 text-xs text-foreground-muted">
+        <p className="pr-3 shrink overflow-hidden overflow-ellipsis whitespace-nowrap">
+          {timeAgo({ date: new Date(earliestTimestamp), locale: appLocale })}
+        </p>
+        <p className="pl-3 shrink overflow-hidden overflow-ellipsis whitespace-nowrap">Today</p>
       </div>
     </div>
   );

@@ -5,9 +5,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function timeAgo(date: Date, now = new Date()): string {
-  const locale = typeof navigator === 'undefined' ? 'en-US' : navigator.language;
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto', style: 'short' });
+export function timeAgo({
+  date,
+  now = new Date(),
+  locale
+}: {
+  date: Date;
+  now?: Date;
+  locale?: string;
+}): string {
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'always', style: 'short' });
   const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
   const intervals: { unit: Intl.RelativeTimeFormatUnit; seconds: number }[] = [

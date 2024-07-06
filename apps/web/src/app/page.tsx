@@ -1,17 +1,12 @@
 import { LatestCheck } from '@/components/latest-check';
 import MonitorCard from '@/components/monitor-card/monitor-card';
 import { getMonitors } from '@/lib/queries';
-import {
-  CheckCircleIcon,
-  ExclamationTriangleIcon,
-  XCircleIcon,
-  XMarkIcon
-} from '@heroicons/react/24/solid';
+import { CheckCircleIcon, ExclamationTriangleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { headers } from 'next/headers';
 
 export default async function Home() {
   headers();
-  const { data } = await getMonitors();
+  const { data } = await getMonitors({ interval: 3, intervalUnit: 'hours', limit: 30 });
   const latestDate = new Date(Math.max(...data.map((m) => m.latestTimestamp)));
   const partialOutage = data.some((m) => m.isDown);
   const completeOutage = data.every((m) => m.isDown);
@@ -43,6 +38,7 @@ export default async function Home() {
               data={monitor.data}
               title={monitor.title}
               latestTimestamp={monitor.latestTimestamp}
+              earliestTimestamp={monitor.earliestTimestamp}
             />
           ))}
         </div>
