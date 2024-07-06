@@ -23,11 +23,11 @@ type TDataPointFromDB = {
 };
 
 export async function getMonitors({
-  interval,
+  intervalDuration,
   intervalUnit,
   limit
 }: {
-  interval: number;
+  intervalDuration: number;
   intervalUnit: 'hours' | 'days';
   limit: number;
 }): Promise<{
@@ -35,14 +35,13 @@ export async function getMonitors({
 }> {
   const start = Date.now();
 
-  const intervalDuration = `${Math.round(interval)} ${intervalUnit}`;
-  const recentRange = `${limit * interval} ${intervalUnit}`;
+  const interval = `${Math.round(intervalDuration)} ${intervalUnit}`;
+  const dateRange = `${limit * intervalDuration} ${intervalUnit}`;
   const res: TDataPointFromDB[] = await db.execute(sql`
     WITH params AS (
         SELECT 
-            ${intervalDuration}::interval AS interval_duration,
-            '30 days'::interval AS date_range,
-            ${recentRange}::interval AS recent_range
+            ${interval}::interval AS interval_duration,
+            ${dateRange}::interval AS date_range
     ),
     date_series AS (
         SELECT 
@@ -117,17 +116,18 @@ export async function getMonitors({
     ),
     interval_stats AS (
         SELECT
-            monitor_id,
-            DATE_TRUNC('hour', checked_at) +
-            (EXTRACT(MINUTE FROM checked_at)::int / 60 * (SELECT interval_duration FROM params)) AS interval,
-            COUNT(*) AS total_request_count,
-            SUM(CASE WHEN is_fail THEN 1 ELSE 0 END) AS failed_request_count
+            mdc.monitor_id,
+            mdc.interval,
+            COUNT(rc.id) AS total_request_count,
+            SUM(CASE WHEN rc.is_fail THEN 1 ELSE 0 END) AS failed_request_count
         FROM
-            ranked_checks
+            monitor_date_combinations mdc
+        LEFT JOIN ranked_checks rc ON 
+            rc.monitor_id = mdc.monitor_id AND
+            rc.checked_at >= mdc.interval AND
+            rc.checked_at < mdc.interval + (SELECT interval_duration FROM params)
         GROUP BY
-            monitor_id,
-            DATE_TRUNC('hour', checked_at) +
-            (EXTRACT(MINUTE FROM checked_at)::int / 60 * (SELECT interval_duration FROM params))
+            mdc.monitor_id, mdc.interval
     ),
     latest_status AS (
         SELECT DISTINCT ON (monitor_id)
@@ -165,7 +165,7 @@ export async function getMonitors({
     FROM
         combined_results
     WHERE
-        interval > NOW() AT TIME ZONE 'UTC' - (SELECT recent_range FROM params)
+        interval > NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params)
     ORDER BY
         monitor_id, interval DESC;
  `);

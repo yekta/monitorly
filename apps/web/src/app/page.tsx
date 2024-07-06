@@ -6,7 +6,7 @@ import { headers } from 'next/headers';
 
 export default async function Home() {
   headers();
-  const { data } = await getMonitors({ interval: 3, intervalUnit: 'hours', limit: 30 });
+  const { data } = await getMonitors({ intervalDuration: 3, intervalUnit: 'hours', limit: 30 });
   const latestDate = new Date(Math.max(...data.map((m) => m.latestTimestamp)));
   const partialOutage = data.some((m) => m.isDown);
   const completeOutage = data.every((m) => m.isDown);
