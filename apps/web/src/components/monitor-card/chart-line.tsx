@@ -21,6 +21,10 @@ export default function ChartLine({
 }) {
   const [open, setOpen] = useState(false);
 
+  const isFail = data.failed_request_count > 0;
+  const isSuccess = data.total_request_count > 0 && data.failed_request_count === 0;
+  const hasNoData = data.total_request_count === 0;
+
   return (
     <Tooltip
       open={open}
@@ -35,8 +39,8 @@ export default function ChartLine({
           e.preventDefault();
           setOpen(true);
         }}
-        data-fail={data.type === 'fail' ? true : undefined}
-        data-no-data={data.type === 'no-data' ? true : undefined}
+        data-fail={isFail === true ? true : undefined}
+        data-no-data={hasNoData ? true : undefined}
         data-last={isLast ? true : undefined}
         data-first={isFirst ? true : undefined}
         className="group/bar relative flex h-12 w-full cursor-default px-px hover:brightness-90 hover:saturate-150 focus-visible:outline-none focus-visible:brightness-110 focus-visible:saturate-150 dark:hover:brightness-110"
@@ -44,21 +48,17 @@ export default function ChartLine({
         <div className="h-full w-full rounded-[1px] group-data-[fail]/bar:bg-fail group-data-[no-data]/bar:bg-background-secondary bg-success transition duration-100 group-hover/bar:scale-y-125 group-focus-visible/bar:scale-y-125 group-data-[first]/bar:rounded-l-lg group-data-[last]/bar:rounded-r-lg"></div>
       </TooltipTrigger>
       <TooltipContent collisionPadding={16} sideOffset={14} className="p-0" asChild>
-        <div data-fail={data.type === 'fail' ? true : undefined} className="group flex flex-col">
+        <div data-fail={isFail ? true : undefined} className="group flex flex-col">
           <div className="flex items-center justify-between gap-2 px-3.5 py-2.5">
             <div className="flex items-center pr-6">
-              {data.type === 'fail' && (
+              {isFail && (
                 <ExclamationTriangleIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-fail" />
               )}
-              {data.type === 'success' && (
+              {isSuccess && (
                 <HandThumbUpIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-success" />
               )}
               <p className="min-w-0 flex-shrink overflow-hidden overflow-ellipsis font-semibold">
-                {data.type === 'no-data'
-                  ? 'No data'
-                  : data.type === 'success'
-                    ? 'No incidents'
-                    : 'Incident'}
+                {hasNoData ? 'No data' : isSuccess ? 'No incidents' : 'Incident'}
               </p>
             </div>
             <p className="text-sm text-foreground-muted">
@@ -78,7 +78,7 @@ export default function ChartLine({
               </p>
             </div>
           )}
-          {data.type !== 'no-data' && (
+          {!hasNoData && (
             <div className="flex items-center justify-between gap-2 border-t border-background-secondary px-3.5 py-2.5 text-sm">
               <p className="text-foreground-muted">
                 <span className="font-semibold text-success">

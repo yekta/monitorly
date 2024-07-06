@@ -18,7 +18,7 @@ export default function MonitorCard({
 }) {
   const reversedData = [...data].reverse();
   const cleanedData = reversedData.slice(
-    reversedData.findIndex((dataPoint) => dataPoint.type !== 'no-data'),
+    reversedData.findIndex((dataPoint) => dataPoint.total_request_count > 0),
     reversedData.length
   );
   const startTimestamp: number | undefined =
@@ -80,7 +80,6 @@ export default function MonitorCard({
 
 export type TDataPoint = {
   id: string;
-  type: 'success' | 'fail' | 'no-data';
   timestamp: number;
   total_request_count: number;
   failed_request_count: number;

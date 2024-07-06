@@ -192,12 +192,6 @@ export async function getMonitors({
         const total_request_count = parseInt(row.total_request_count);
         return {
           id: `${row.monitor_id}-${row.interval}`,
-          type:
-            total_request_count === 0
-              ? 'no-data'
-              : row.failed_request_count === '0'
-                ? 'success'
-                : 'fail',
           timestamp: new Date(row.interval).getTime(),
           total_request_count: total_request_count,
           failed_request_count: parseInt(row.failed_request_count),
