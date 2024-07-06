@@ -47,7 +47,7 @@ export default function ChartLine({
       >
         <div className="h-full w-full rounded-[1px] group-data-[fail]/bar:bg-fail group-data-[no-data]/bar:bg-background-secondary bg-success transition duration-100 group-hover/bar:scale-y-125 group-focus-visible/bar:scale-y-125 group-data-[first]/bar:rounded-l-lg group-data-[last]/bar:rounded-r-lg"></div>
       </TooltipTrigger>
-      <TooltipContent collisionPadding={16} sideOffset={14} className="p-0" asChild>
+      <TooltipContent collisionPadding={16} sideOffset={12} className="p-0" asChild>
         <div data-fail={isFail ? true : undefined} className="group flex flex-col">
           <div className="flex items-center justify-between gap-2 px-3.5 py-2.5">
             <div className="flex items-center pr-6">
@@ -81,12 +81,20 @@ export default function ChartLine({
           {!hasNoData && (
             <div className="flex items-center justify-between gap-2 border-t border-background-secondary px-3.5 py-2.5 text-sm">
               <p className="text-foreground-muted">
-                <span className="font-semibold text-success">
+                <span
+                  data-has-success={
+                    data.total_request_count - data.failed_request_count > 0 ? true : undefined
+                  }
+                  className="data-[has-success]:font-semibold data-[has-success]:text-success"
+                >
                   {(data.total_request_count - data.failed_request_count).toLocaleString(appLocale)}
                 </span>{' '}
                 successful
                 <span className="px-[1ch] text-background-tertiary">•</span>
-                <span className="font-semibold text-fail">
+                <span
+                  data-has-fail={data.failed_request_count > 0 ? true : undefined}
+                  className="data-[has-fail]:font-semibold data-[has-fail]:text-fail"
+                >
                   {data.failed_request_count.toLocaleString(appLocale)}
                 </span>{' '}
                 failed

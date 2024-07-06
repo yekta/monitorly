@@ -2,11 +2,11 @@ import { LatestCheck } from '@/components/latest-check';
 import MonitorCard from '@/components/monitor-card/monitor-card';
 import { getMonitors } from '@/lib/queries';
 import { CheckCircleIcon, ExclamationTriangleIcon, XCircleIcon } from '@heroicons/react/24/solid';
-import { headers } from 'next/headers';
+
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  headers();
-  const { data } = await getMonitors({ intervalDuration: 3, intervalUnit: 'hours', limit: 30 });
+  const { data } = await getMonitors({ intervalDuration: 2, intervalUnit: 'hours', limit: 30 });
   const latestDate = new Date(Math.max(...data.map((m) => m.latestTimestamp)));
   const partialOutage = data.some((m) => m.isDown);
   const completeOutage = data.every((m) => m.isDown);
@@ -30,7 +30,7 @@ export default async function Home() {
           </h1>
           <LatestCheck latestDate={latestDate} className="mt-2.5" />
         </div>
-        <div className="mt-10 flex w-full max-w-3xl flex-col items-center justify-start gap-10">
+        <div className="mt-8 flex w-full max-w-3xl flex-col items-center justify-start gap-8">
           {data.map((monitor) => (
             <MonitorCard
               isDown={monitor.isDown}
