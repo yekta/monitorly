@@ -35,20 +35,22 @@ export async function getMonitors({
 }> {
   const start = Date.now();
 
-  const intervalDuration = `${interval} ${intervalUnit}`;
+  const intervalDuration = `${Math.round(interval)} ${intervalUnit}`;
   const recentRange = `${limit * interval} ${intervalUnit}`;
   const res: TDataPointFromDB[] = await db.execute(sql`
     WITH params AS (
-        SELECT ${intervalDuration}::interval AS interval_duration,
+        SELECT 
+            ${intervalDuration}::interval AS interval_duration,
             '30 days'::interval AS date_range,
             ${recentRange}::interval AS recent_range
     ),
     date_series AS (
-        SELECT generate_series(
-            DATE_TRUNC('hour', NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params)),
-            NOW() AT TIME ZONE 'UTC',
-            (SELECT interval_duration FROM params)
-        ) AS interval
+        SELECT 
+            generate_series(
+                DATE_TRUNC('hour', NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params)),
+                NOW() AT TIME ZONE 'UTC',
+                (SELECT interval_duration FROM params)
+            ) AS interval
     ),
     monitor_date_combinations AS (
         SELECT
@@ -142,7 +144,7 @@ export async function getMonitors({
             mdc.monitor_id,
             mdc.interval,
             COALESCE(ist.total_request_count, 0) AS total_request_count,
-            COALESCE(ist.failed_request_count, 0) AS failed_request_count,
+            GREATEST(COALESCE(ist.failed_request_count, 0), CASE WHEN id.downtime_seconds > 0 THEN 1 ELSE 0 END) AS failed_request_count,
             COALESCE(id.downtime_seconds, 0) AS downtime_seconds,
             COALESCE(ls.is_down, false) AS is_down,
             ls.latest_timestamp
@@ -166,7 +168,6 @@ export async function getMonitors({
         interval > NOW() AT TIME ZONE 'UTC' - (SELECT recent_range FROM params)
     ORDER BY
         monitor_id, interval DESC;
-
  `);
 
   const monitorsMap: Record<string, TDataPointFromDB[]> = {};
