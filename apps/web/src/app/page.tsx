@@ -26,7 +26,7 @@ export default async function Home() {
               ? 'Complete outage'
               : partialOutage
                 ? 'Partial outage'
-                : 'All systems operational 1'}
+                : 'All systems operational'}
           </h1>
           <LatestCheck timestamp={latestTimestamp} className="mt-2.5" />
         </div>
