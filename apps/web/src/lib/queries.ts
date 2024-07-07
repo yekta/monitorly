@@ -49,7 +49,7 @@ export async function getMonitors({
                 DATE_TRUNC('day', NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params)),
                 DATE_TRUNC('day', NOW() AT TIME ZONE 'UTC'),
                 '1 day'::interval
-            ) AS interval
+            ) AT TIME ZONE 'UTC' AS interval
         WHERE (SELECT interval_duration FROM params) >= INTERVAL '1 day'
     ),
     date_series_hours AS (
@@ -58,7 +58,7 @@ export async function getMonitors({
                 DATE_TRUNC('hour', NOW() AT TIME ZONE 'UTC' - (SELECT date_range FROM params)),
                 NOW() AT TIME ZONE 'UTC',
                 (SELECT interval_duration FROM params)
-            ) AS interval
+            ) AT TIME ZONE 'UTC' AS interval
         WHERE (SELECT interval_duration FROM params) < INTERVAL '1 day'
     ),
     date_series AS (
@@ -193,8 +193,7 @@ export async function getMonitors({
         END
     ORDER BY
         monitor_id, interval DESC;
- `);
-
+  `);
   const monitorsMap: Record<string, TDataPointFromDB[]> = {};
 
   res.forEach((row) => {

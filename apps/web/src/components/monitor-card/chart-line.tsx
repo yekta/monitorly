@@ -2,10 +2,9 @@
 
 import { TDataPoint } from '@/components/monitor-card/monitor-card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { appLocale } from '@/lib/constants';
 import { ExclamationTriangleIcon, HandThumbUpIcon, NoSymbolIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
-import { appLocale } from '@/lib/constants';
-import { timeAgo } from '@/lib/utils';
 
 export default function ChartLine({
   data,
@@ -51,7 +50,7 @@ export default function ChartLine({
       <TooltipContent collisionPadding={16} sideOffset={12} className="p-0" asChild>
         <div data-fail={isFail ? true : undefined} className="group flex flex-col">
           <div className="flex items-center justify-between gap-2 px-3.5 py-2.5">
-            <div className="flex items-center pr-6">
+            <div className="flex items-center pr-4">
               {isFail && (
                 <ExclamationTriangleIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-fail" />
               )}
@@ -61,11 +60,14 @@ export default function ChartLine({
               {hasNoData && (
                 <NoSymbolIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-foreground" />
               )}
-              <p className="min-w-0 flex-shrink overflow-hidden overflow-ellipsis font-semibold">
+              <p className="min-w-0 flex-shrink overflow-hidden overflow-ellipsis font-semibold leading-tight">
                 {hasNoData ? 'No data' : isSuccess ? 'No incidents' : 'Incident'}
               </p>
             </div>
-            <p className="text-sm text-foreground-muted">{data.timestamp}</p>
+            <p className="text-sm text-foreground-muted text-right leading-tight">
+              {getDateString({ timestamp: data.timestamp, intervalInSeconds, locale: appLocale })}{' '}
+              (UTC)
+            </p>
           </div>
           {data.downtime_in_seconds > 0 && (
             <div className="flex items-center justify-between gap-2 px-3.5 pb-3 text-sm">

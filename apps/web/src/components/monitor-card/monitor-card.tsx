@@ -39,16 +39,18 @@ export default function MonitorCard({
 
   return (
     <div data-is-down={isDown ? true : undefined} className="group flex w-full max-w-lg flex-col">
-      <div className="flex w-full flex-wrap items-center justify-start gap-0.5">
-        <div className="flex flex-1 items-center pr-4">
+      <div className="flex w-full items-center justify-start gap-0.5">
+        <div className="flex flex-1 items-center pr-6 min-w-0 overflow-hidden">
           {isDown ? (
             <XCircleIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-fail" />
           ) : (
             <CheckCircleIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-success" />
           )}
-          <h2 className="flex-1 text-lg font-bold">{title}</h2>
+          <h2 className="shrink text-lg font-bold overflow-hidden overflow-ellipsis whitespace-nowrap">
+            {title}
+          </h2>
         </div>
-        <p className="rounded-md bg-background-secondary px-1.5 py-0.75 text-center text-xs font-medium text-foreground-muted">
+        <p className="rounded-md bg-background-secondary px-1.25 py-0.5 text-center text-xs font-medium text-foreground-muted">
           {uptimePercent.toLocaleString(appLocale, {
             maximumFractionDigits: 2,
             minimumFractionDigits: 2
@@ -56,7 +58,7 @@ export default function MonitorCard({
           %
         </p>
       </div>
-      <div className="-ml-px mt-2 flex w-[calc(100%+2px)]">
+      <div className="-ml-px mt-1.5 flex w-[calc(100%+2px)]">
         {reversedData.map((dataPoint, index) => (
           <ChartLine
             key={`${dataPoint.id}-${index}`}
