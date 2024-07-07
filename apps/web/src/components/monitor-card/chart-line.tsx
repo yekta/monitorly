@@ -5,6 +5,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { ExclamationTriangleIcon, HandThumbUpIcon, NoSymbolIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import { appLocale } from '@/lib/constants';
+import { timeAgo } from '@/lib/utils';
 
 export default function ChartLine({
   data,
@@ -65,7 +66,7 @@ export default function ChartLine({
               </p>
             </div>
             <p className="text-sm text-foreground-muted">
-              {getDateString({ timestamp: data.timestamp, intervalInSeconds, locale: appLocale })}
+              {timeAgo({ timestamp: data.timestamp, locale: appLocale })}
             </p>
           </div>
           {data.downtime_in_seconds > 0 && (
