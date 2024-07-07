@@ -13,6 +13,8 @@ type TMonitor = {
 
 Because of this, you can monitor any async process you want, not just simple HTTP calls.
 
+Here is an example site: [Monitorly Example](https://monitorly.up.railway.app/).
+
 ## Get started
 
 ### Development
