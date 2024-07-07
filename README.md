@@ -1,6 +1,6 @@
-# Statusly - Uptime & Status Monitoring
+# Monitorly - Uptime & Status Monitoring
 
-Statusly is a simple uptime & status monitoring app with a twist:
+Monitorly is a simple uptime & status monitoring app with a twist:
 
 Instead of watching the result of an HTTP call, each monitor watches the result of a promise. The function it watches must return a promise that resolves to a boolean. If the value is `true`, the monitored system is considered to be operational.
 

@@ -13,10 +13,10 @@
     "db:drop": "drizzle-kit drop"
   },
   "author": "Muhammed Yekta Güngör",
-  "description": "The server of the Statusly app.",
+  "description": "The server of the Monitorly app.",
   "license": "MIT",
   "keywords": [
-    "statusly",
+    "monitorly",
     "uptime",
     "status",
     "monitoring",

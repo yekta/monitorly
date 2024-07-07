@@ -6,7 +6,7 @@
   "description": "Simple uptime & status monitoring app that monitors the results of async functions.",
   "license": "MIT",
   "keywords": [
-    "statusly",
+    "monitorly",
     "uptime",
     "status",
     "monitoring",

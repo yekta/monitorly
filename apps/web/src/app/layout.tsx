@@ -3,7 +3,7 @@ import '@/styles/globals.css';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
 
 export const metadata: Metadata = {
-  title: 'Statusly',
+  title: 'Monitorly',
   description: 'Monitor your services and get notified when they go down.'
 };
 
