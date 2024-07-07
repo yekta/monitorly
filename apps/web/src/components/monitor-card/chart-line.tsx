@@ -147,7 +147,7 @@ function getDowntimeStr({
 }) {
   const intervals = [
     { label: 'days', seconds: 86400, maxFractionDigits: 1 },
-    { label: 'hrs.', seconds: 3600, maxFractionDigits: 1 },
+    { label: 'hr.', seconds: 3600, maxFractionDigits: 1 },
     { label: 'min.', seconds: 60, maxFractionDigits: 0 },
     { label: 'sec.', seconds: 1, maxFractionDigits: 0 }
   ];
