@@ -39,7 +39,7 @@ export default function MonitorCard({
 
   return (
     <div data-is-down={isDown ? true : undefined} className="group flex w-full max-w-lg flex-col">
-      <div className="flex w-full items-center justify-start gap-0.5">
+      <div className="flex w-full items-end justify-start gap-0.5">
         <div className="flex flex-1 items-center pr-6 min-w-0 overflow-hidden">
           {isDown ? (
             <XCircleIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-fail" />
@@ -50,7 +50,7 @@ export default function MonitorCard({
             {title}
           </h2>
         </div>
-        <p className="rounded-md bg-background-secondary px-1.25 py-0.5 text-center text-xs font-medium text-foreground-muted">
+        <p className="text-center text-xs text-foreground-muted pb-0.5">
           {uptimePercent.toLocaleString(appLocale, {
             maximumFractionDigits: 2,
             minimumFractionDigits: 2

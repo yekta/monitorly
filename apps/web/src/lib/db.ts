@@ -1,4 +1,4 @@
-import { createDb } from 'server/db-utils';
+import { createDb } from '@repo/server/db-utils';
 
 const databaseUrl = process.env.DATABASE_URL!;
 if (!databaseUrl) {

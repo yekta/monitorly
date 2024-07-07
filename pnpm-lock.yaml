@@ -57,6 +57,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@19.0.0-rc-f994737d14-20240522)(react@19.0.0-rc-f994737d14-20240522)
+      '@repo/server':
+        specifier: workspace:*
+        version: link:../server
       babel-plugin-react-compiler:
         specifier: 0.0.0-experimental-696af53-20240625
         version: 0.0.0-experimental-696af53-20240625
@@ -81,9 +84,6 @@ importers:
       react-dom:
         specifier: 19.0.0-rc-f994737d14-20240522
         version: 19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522)
-      server:
-        specifier: workspace:*
-        version: link:../server
       tailwind-merge:
         specifier: ^2.3.0
         version: 2.3.0
