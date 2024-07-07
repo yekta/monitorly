@@ -5,7 +5,9 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "db:generate": "cd apps/server && pnpm run db:generate",
+    "db:migrate": "cd apps/server && pnpm run db:migrate"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

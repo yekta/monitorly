@@ -37,7 +37,6 @@
   },
   "exports": {
     ".": "./dist/apps/server/src/index.js",
-    "./db": "./dist/apps/server/src/db/db.js",
-    "./db-utils": "./dist/apps/server/src/db/utils.js"
+    "./db/utils": "./dist/apps/server/src/db/utils.js"
   }
 }

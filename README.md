@@ -23,5 +23,6 @@ Here is an example site: [Monitorly Example](https://monitorly.up.railway.app/).
 2. Run `pnpm install`.
 3. Create a PostgreSQL database (via [Supabase](https://supabase.com/), [Neon](https://neon.tech/), [Railway](https://railway.app/), etc.).
 4. Rename the `env.example` files in the `apps/server` and `apps/web` directories to `.env` and fill in the connection connection string.
-5. `cd` into the `apps/server` directory and run `pnpm run db:generate` to generate migrations and run `pnpm run db:migrate` to apply them.
-6. Run `pnpm dev` to start the dev server.
+5. Run `pnpm run db:generate` to generate database migrations and run `pnpm run db:migrate` to apply them to your database.
+6. Run `pnpm run build` so that the shared local packages are built.
+7. Run `pnpm run dev` to start the dev server.

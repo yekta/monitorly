@@ -2,7 +2,7 @@ import 'dotenv/config';
 import Fastify from 'fastify';
 import fastifyCron from 'fastify-cron';
 import { monitors } from '../../../monitor.config.js';
-import { statusChecks } from '../drizzle/schema.js';
+import { statusChecks } from './db/schema.js';
 import { db } from './db/db.js';
 
 const PORT = Number(process.env.PORT || '3001');

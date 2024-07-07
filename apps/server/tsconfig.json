@@ -13,7 +13,7 @@
     "outDir": "dist",
     "rootDir": "../.."
   },
-  "include": ["../../*.ts", "src/**/*.ts", "drizzle/**/*.ts", "drizzle.config.ts"],
+  "include": ["../../*.ts", "src/**/*.ts", "drizzle.config.ts"],
   "exclude": ["node_modules"],
   "exports": {
     ".": "./dist/src/index.js"
