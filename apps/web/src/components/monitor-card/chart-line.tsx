@@ -65,8 +65,7 @@ export default function ChartLine({
               </p>
             </div>
             <p className="text-sm text-foreground-muted text-right leading-tight">
-              {getDateString({ timestamp: data.timestamp, intervalInSeconds, locale: appLocale })}{' '}
-              (UTC)
+              {getDateString({ timestamp: data.timestamp, intervalInSeconds, locale: appLocale })}
             </p>
           </div>
           {data.downtime_in_seconds > 0 && (
@@ -82,29 +81,27 @@ export default function ChartLine({
               </p>
             </div>
           )}
-          {!hasNoData && (
-            <div className="flex items-center justify-between gap-2 border-t border-background-secondary px-3.5 py-2.5 text-sm">
-              <p className="text-foreground-muted">
-                <span
-                  data-has-success={
-                    data.total_request_count - data.failed_request_count > 0 ? true : undefined
-                  }
-                  className="data-[has-success]:font-semibold data-[has-success]:text-success"
-                >
-                  {(data.total_request_count - data.failed_request_count).toLocaleString(appLocale)}
-                </span>{' '}
-                successful
-                <span className="px-[1ch] text-background-tertiary">•</span>
-                <span
-                  data-has-fail={data.failed_request_count > 0 ? true : undefined}
-                  className="data-[has-fail]:font-semibold data-[has-fail]:text-fail"
-                >
-                  {data.failed_request_count.toLocaleString(appLocale)}
-                </span>{' '}
-                failed
-              </p>
-            </div>
-          )}
+          <div className="flex items-center justify-between gap-2 border-t border-background-secondary px-3.5 py-2.5 text-sm">
+            <p className="text-foreground-muted">
+              <span
+                data-has-success={
+                  data.total_request_count - data.failed_request_count > 0 ? true : undefined
+                }
+                className="data-[has-success]:font-semibold data-[has-success]:text-success"
+              >
+                {(data.total_request_count - data.failed_request_count).toLocaleString(appLocale)}
+              </span>{' '}
+              successful
+              <span className="px-[1ch] text-background-tertiary">•</span>
+              <span
+                data-has-fail={data.failed_request_count > 0 ? true : undefined}
+                className="data-[has-fail]:font-semibold data-[has-fail]:text-fail"
+              >
+                {data.failed_request_count.toLocaleString(appLocale)}
+              </span>{' '}
+              failed
+            </p>
+          </div>
         </div>
       </TooltipContent>
     </Tooltip>
