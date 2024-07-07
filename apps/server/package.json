@@ -8,9 +8,9 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/apps/server/src/index.js",
-    "db-generate": "drizzle-kit generate",
-    "db-migrate": "drizzle-kit migrate",
-    "db-drop": "drizzle-kit drop"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:drop": "drizzle-kit drop"
   },
   "author": "Muhammed Yekta Güngör",
   "description": "The server of the Statusly app.",

@@ -17,8 +17,9 @@ Because of this, you can monitor any async process you want, not just simple HTT
 
 ### Development
 
-1. Clone the repo
-2. Run `pnpm install`
-3. Create a PostgreSQL database (via [Supabase](https://supabase.com/), [Neon](https://neon.tech/), [Railway](https://railway.app/), etc.)
+1. Clone the repo.
+2. Run `pnpm install`.
+3. Create a PostgreSQL database (via [Supabase](https://supabase.com/), [Neon](https://neon.tech/), [Railway](https://railway.app/), etc.).
 4. Rename the `env.example` files in the `apps/server` and `apps/web` directories to `.env` and fill in the connection connection string.
-5. Run `pnpm dev` to start the dev server
+5. `cd` into the `apps/server` directory and run `pnpm run db:generate` to generate migrations and run `pnpm run db:migrate` to apply them.
+6. Run `pnpm dev` to start the dev server.
