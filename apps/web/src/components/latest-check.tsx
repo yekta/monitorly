@@ -12,8 +12,8 @@ export function LatestCheck({ timestamp, className }: { timestamp: number; class
   }, 1000);
   return (
     <p className={cn('text-center text-sm text-foreground-muted', className)}>
-      <span className="text-foreground-muted-more">Last check:</span>{' '}
-      <span suppressHydrationWarning className="font-medium">
+      <span className="text-foreground-muted">Last check:</span>{' '}
+      <span suppressHydrationWarning className="font-semibold">
         {timeAgo({ timestamp, now, locale: appLocale })}
       </span>
     </p>

@@ -42,9 +42,9 @@ export default function MonitorCard({
       <div className="flex w-full items-end justify-start gap-0.5">
         <div className="flex flex-1 items-center pr-6 min-w-0 overflow-hidden">
           {isDown ? (
-            <XCircleIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-fail" />
+            <XCircleIcon className="-ml-0.25 mr-1.5 size-5 shrink-0 text-fail" />
           ) : (
-            <CheckCircleIcon className="-ml-0.5 mr-1.5 size-5 shrink-0 text-success" />
+            <CheckCircleIcon className="-ml-0.25 mr-1.5 size-5 shrink-0 text-success" />
           )}
           <h2 className="shrink text-lg font-bold overflow-hidden overflow-ellipsis whitespace-nowrap">
             {title}
