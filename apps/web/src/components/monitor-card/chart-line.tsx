@@ -65,9 +65,7 @@ export default function ChartLine({
                 {hasNoData ? 'No data' : isSuccess ? 'No incidents' : 'Incident'}
               </p>
             </div>
-            <p className="text-sm text-foreground-muted">
-              {timeAgo({ timestamp: data.timestamp, locale: appLocale })}
-            </p>
+            <p className="text-sm text-foreground-muted">{data.timestamp}</p>
           </div>
           {data.downtime_in_seconds > 0 && (
             <div className="flex items-center justify-between gap-2 px-3.5 pb-3 text-sm">
